@@ -5,7 +5,7 @@ import Home from './pages/Home.jsx'
 import UserLogin from './pages/UserLogin.jsx';
 import UserSignUp from './pages/UserSignUp.jsx';
 import CaptainLogin from './pages/CaptainLogin.jsx';
-import CaptainsignUp from './pages/CaptainsignUp.jsx';
+import CaptainsignUp from './pages/CaptainSignUp.jsx';
 
 function App() {
   

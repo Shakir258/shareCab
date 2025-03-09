@@ -2,19 +2,24 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function UserLogin() {
-    const[email, setEmail] = useState("")
-    const[password, setPassword] = useState("")
-    const[userData, setUserData] = useState({})
+    
+    const[userData, setUserData] = useState({
+        email: "",
+        password: ""
+    })
+
+    const handleChange = (e) => {
+        setUserData({
+            ...userData,
+            [e.target.name]: e.target.value
+        })
+    }
 
     const submitHandler = (e) => {
         e.preventDefault();
-        setUserData({
-            email: email,
-            password: password
-        });
         console.log(userData);
-        setEmail('');
-        setPassword('');
+        setUserData({email: "", password: ""})
+        
     }
 
 
@@ -30,10 +35,9 @@ function UserLogin() {
                 <h3 className='text-lg font-medium mb-2'>What's your email</h3>
                 <input 
                 required 
-                value={email}
-                onChange={(e)=> {
-                    setEmail(e.target.value);
-                }}
+                name='email'
+                value={userData.email}
+                onChange={handleChange}
                 className='bg-[#eeeeee]  mb-7 px-4 py-2  w-full text-lg placeholder:text-base rounded'
                 type="email" 
                 placeholder='email@example.com'
@@ -42,10 +46,9 @@ function UserLogin() {
                 <h3 className='text-lg font-medium mb-2'>Enter password</h3>
                 <input 
                 required 
-                value={password}
-                onChange={(e)=> {
-                    setPassword(e.target.value);
-                }}
+                name='password'
+                value={userData.password}
+                onChange={handleChange}
                 className='bg-[#eeeeee] rouneded mb-7 px-4 py-2  w-full text-lg placeholder:text-base rounded'
                 type="password" 
                 placeholder='password'
@@ -53,7 +56,7 @@ function UserLogin() {
                 <button
                 className='bg-[#111] text-white font-semibold rounded mb-3 px-4 py-2  w-full text-lg placeholder:text-base'
                 >Login</button>
-                <p className='text-center'>New Here? <Link to='/user-signup' className='text-blue-600 '>Create New Account</Link></p>
+                <p className='text-center'>New Here? <Link to='/user-signup' className='text-blue-600 '>Register as a User</Link></p>
             </form>
             </div>
 

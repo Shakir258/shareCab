@@ -8,14 +8,17 @@ function CaptainLogin() {
         password: ""
     })
 
+    // set data and change ui
     const handleChange = (e) => {
         setDriverData({
             ...driverData,
             [e.target.name]: e.target.value
         })
     }
+    
 
-    const submitHandler = (e) => {
+    // handledefault submit and make input field empty
+    const submitHandler = (e) => { 
         e.preventDefault();
         console.log(driverData);
         setDriverData({email: "", password: ""})
@@ -55,14 +58,14 @@ function CaptainLogin() {
                 />
                 <button
                 className='bg-[#111] text-white font-semibold rounded mb-3 px-4 py-2  w-full text-lg placeholder:text-base'
-                >Login</button>
-                <p className='text-center'>New Here? <Link to='/captain-signup' className='text-blue-600 '>Register as a Captain</Link></p>
+                >Driver Login</button>
+                <p className='text-center'>New Here? <Link to='/captain-signup' className='text-blue-600 '>Register as a Driver</Link></p>
             </form>
             </div>
 
             <div>
                 <Link to='/user-login'
-                className='bg-[#f8b147] flex justify-center items-center text-white font-semibold rounded mb-5 px-4 py-2  w-full text-lg placeholder:text-base'
+                className='bg-[#4170a7] flex justify-center items-center text-white font-semibold rounded mb-5 px-4 py-2  w-full text-lg placeholder:text-base'
                 >Sign in as User</Link>
             </div>
         </div>

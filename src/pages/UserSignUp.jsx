@@ -80,9 +80,10 @@ function UserSignUp() {
                 type="password" 
                 placeholder='password'
                 />
-                <button className='bg-[#111] text-white font-semibold rounded mb-3 px-4 py-2  w-full text-lg placeholder:text-sm'>
+                <Link  to='/'
+                className='bg-[#111] flex justify-center items-center text-white font-semibold rounded mb-3 px-4 py-2  w-full text-lg placeholder:text-sm'>
                     User SignUp
-                </button>
+                </Link>
                 <p className='text-center'>Already hava a account? <Link to='/user-login' className='text-blue-600 '>Login here</Link></p>
             </form>
             </div>

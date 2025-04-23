@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { userSignUp } from '../services/userSignUp';
 
 function UserSignUp() {
 
@@ -22,17 +23,28 @@ function UserSignUp() {
     // Handle form submission: prevent reload, log data, clear inputs
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log(userData); // In real app, send data to backend
-        setUserData({ firstName: "", lastName: "", email: "", password: "" }); // Reset form
+        console.log(userData);
+
+        // Call signup service
+        userSignUp(userData).then((response) => {
+            console.log(response)
+            console.log("sucess");
+        }).catch((error) => {
+            console.log(error);
+            console.log("error log");
+        });
+
+        // In real app, send data to backend
+        // setUserData({ firstName: "", lastName: "", email: "", password: "" }); // Reset form
     };
 
     return (
         <div className='p-7 h-screen flex flex-col justify-between'>
             <div>
                 {/* Logo */}
-                <img className='w-15 mb-10' 
-                    src="https://cdn-icons-png.freepik.com/256/5723/5723740.png?ga=GA1.1.1355548291.1741342944&semt=ais_hybrid" 
-                    alt="Logo" 
+                <img className='w-15 mb-10'
+                    src="https://cdn-icons-png.freepik.com/256/5723/5723740.png?ga=GA1.1.1355548291.1741342944&semt=ais_hybrid"
+                    alt="Logo"
                 />
 
                 {/* Signup Form */}
@@ -41,57 +53,58 @@ function UserSignUp() {
 
                     {/* Name Inputs */}
                     <div className='flex gap-3 mb-4'>
-                        <input 
-                            required 
-                            name='firstName' 
+                        <input
+                            required
+                            name='firstName'
                             value={userData.firstName}
                             onChange={handleChange}
                             className='bg-[#eeeeee] px-4 py-2 w-full text-lg placeholder:text-base rounded'
-                            type="text" 
+                            type="text"
                             placeholder='First Name'
                         />
 
-                        <input 
-                            required 
-                            name='lastName' 
+                        <input
+                            required
+                            name='lastName'
                             value={userData.lastName}
                             onChange={handleChange}
                             className='bg-[#eeeeee] px-4 py-2 w-full text-lg placeholder:text-base rounded'
-                            type="text" 
+                            type="text"
                             placeholder='Last Name'
                         />
                     </div>
 
                     {/* Email Input */}
                     <h3 className='text-lg font-medium mb-2'>What's your email</h3>
-                    <input 
-                        required 
-                        name='email' 
-                        value={userData.email}  
+                    <input
+                        required
+                        name='email'
+                        value={userData.email}
                         onChange={handleChange}
                         className='bg-[#eeeeee] mb-4 px-4 py-2 w-full text-lg placeholder:text-base rounded'
-                        type="email" 
+                        type="email"
                         placeholder='email@example.com'
                     />
 
                     {/* Password Input */}
                     <h3 className='text-lg font-medium mb-2'>Enter password</h3>
-                    <input 
-                        required 
-                        name='password' 
+                    <input
+                        required
+                        name='password'
                         value={userData.password}
                         onChange={handleChange}
                         className='bg-[#eeeeee] mb-4 px-4 py-2 w-full text-lg placeholder:text-base rounded'
-                        type="password" 
+                        type="password"
                         placeholder='password'
                     />
 
                     {/* This should be a button to submit the form */}
-                    <Link 
-                        to='/' 
+                    <button
+                        type="submit"
                         className='bg-[#111] flex justify-center items-center text-white font-semibold rounded mb-3 px-4 py-2 w-full text-lg'>
                         User SignUp
-                    </Link>
+                    </button>
+
 
                     {/* Redirect to login page */}
                     <p className='text-center'>
@@ -102,7 +115,7 @@ function UserSignUp() {
 
             {/* Sign up as Driver */}
             <div>
-                <Link 
+                <Link
                     to='/captain-signup'
                     className='bg-[#10b461] flex justify-center items-center text-white font-semibold rounded mb-5 px-4 py-2 w-full text-lg'
                 >

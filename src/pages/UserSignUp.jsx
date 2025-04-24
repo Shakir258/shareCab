@@ -4,6 +4,9 @@ import { userSignUp } from '../services/userSignUp';
 
 function UserSignUp() {
 
+    const [errors, setErrors] = useState([]);
+
+
     // State to store user signup information
     const [userData, setUserData] = useState({
         firstName: "",
@@ -25,6 +28,12 @@ function UserSignUp() {
         e.preventDefault();
         console.log(userData);
 
+        // Client-side validation
+        if (userData.password.length < 6 || !/[!@#$%^&*]/.test(userData.password)) {
+            setErrors([{ message: "Password must be stronger." }]);
+            return;
+        }
+
         // Call signup service
         userSignUp(userData).then((response) => {
             console.log(response)
@@ -33,6 +42,18 @@ function UserSignUp() {
             console.log(error);
             console.log("error log");
         });
+
+        userSignUp(userData)
+            .then((response) => {
+                console.log("success", response);
+                setErrors([]); // clear previous errors if any
+            })
+            .catch((error) => {
+                console.log("error log", error);
+                if (error.response && error.response.data && error.response.data.data) {
+                    setErrors(error.response.data.data);
+                }
+            });
 
         // In real app, send data to backend
         // setUserData({ firstName: "", lastName: "", email: "", password: "" }); // Reset form
@@ -112,6 +133,16 @@ function UserSignUp() {
                     </p>
                 </form>
             </div>
+            {errors.length > 0 && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+                    <ul className="list-disc pl-5 text-sm">
+                        {errors.map((err, index) => (
+                            <li key={index}>{err.message}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
 
             {/* Sign up as Driver */}
             <div>

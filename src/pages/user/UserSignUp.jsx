@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { userSignUp } from '../services/userSignUp';
+import { userSignUp } from '../../services/userSignUp';
 
 function UserSignUp() {
 
@@ -30,7 +30,7 @@ function UserSignUp() {
 
         // Client-side validation
         if (userData.password.length < 6 || !/[!@#$%^&*]/.test(userData.password)) {
-            setErrors([{ message: "Password must be stronger." }]);
+            setErrors([{ message: "Password must be stronger use = !@#$%^&*." }]);
             return;
         }
 

@@ -3,7 +3,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
 
-function Home() {
+function UserHome() {
     // State variables for pickup and destination input fields
     const [pickup, setPickup] = useState('');
     const [destination, setDestination] = useState('');
@@ -111,7 +111,7 @@ function Home() {
     );
 }
 
-export default Home;
+export default UserHome;
 
 /*
 📝 Backend Interaction Notes:

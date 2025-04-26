@@ -17,27 +17,65 @@ import UserHome from '../pages/user/UserHome.jsx';
 import CaptainLogin from '../pages/driver/CaptainLogin.jsx';
 import CaptainSignUp from '../pages/driver/CaptainSignUp.jsx';
 
+
+import ProtectedRoute from '../components/ProtectedRoute.jsx';
+import NotAuthorized from '../pages/public/NotAuthorized.jsx';
+
 function AppRoutes() {
     return (
         <Routes>
-            {/* Public Routes */}
-            <Route path="/start" element={<Start />} />
+
+            {/* 👇 Nested route for homepage */}
             <Route path="/" element={<HomePage />}>
                 <Route index element={<UserHome />} />
-                <Route path="about" element={<About />} />
-                <Route path="contact" element={<Contact />} />
-                <Route path="profile" element={<UserProfile />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<About />} />
             </Route>
 
-            {/* User Routes */}
+
+            {/* Public Routes */}
+            <Route path="/start" element={<Start />} />
+            <Route path="/not-authorized" element={<NotAuthorized />} />
+
+            {/* User Auth Routes */}
             <Route path="/user-login" element={<UserLogin />} />
             <Route path="/user-signup" element={<UserSignUp />} />
 
-            {/* Driver Routes */}
+            {/* Captain Auth Routes */}
             <Route path="/captain-login" element={<CaptainLogin />} />
             <Route path="/captain-signup" element={<CaptainSignUp />} />
+
+            {/* Protected Routes - User */}
+            <Route
+                path="/user/home"
+                element={
+                    <ProtectedRoute allowedRoles={['user']}>
+                        <UserHome />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/user/profile"
+                element={
+                    <ProtectedRoute allowedRoles={['user']}>
+                        <UserProfile />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Protected Routes - Captain (future example) */}
+            {/* 
+        <Route
+            path="/captain/dashboard"
+            element={
+            <ProtectedRoute allowedRoles={['captain']}>
+                <CaptainDashboard />
+            </ProtectedRoute>
+            }
+            /> 
+          */}
         </Routes>
     );
-}
+};
 
 export default AppRoutes;

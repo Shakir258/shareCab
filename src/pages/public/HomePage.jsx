@@ -6,6 +6,7 @@ function HomePage() {
         <div className="relative min-h-screen bg-white">
             
             {/* 👇 Outlet render karega nested routes jaise Home, About, etc. */}
+
             <Outlet />
 
             {/* 👇 Bottom Navigation */}

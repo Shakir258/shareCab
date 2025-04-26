@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { userLogin } from '../../services/userLogin'; // adjust path if needed
 
 function UserLogin() {
-    
-    // State to store user email and password
+    const navigate = useNavigate();
+
     const [userData, setUserData] = useState({
         email: "",
         password: ""
     });
+    
 
-    // Handle input changes and update state
+    const [error, setError] = useState("");
+
     const handleChange = (e) => {
         setUserData({
             ...userData,
@@ -17,23 +20,38 @@ function UserLogin() {
         });
     };
 
-    // Handle form submit: prevent page reload, log data, clear inputs
-    const submitHandler = (e) => {
+    
+    const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(userData); // In real app, send data to backend
-        setUserData({ email: "", password: "" }); // Clear input fields
+        setError("");
+    
+        try {
+            const loginData = {
+                username: userData.email,   // 👈 yahan email se username banake bhej rahe hai
+                password: userData.password
+            };
+    
+            const response = await userLogin(loginData);
+            
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("user", JSON.stringify(response.user));
+    
+            navigate("/user-dashboard");
+    
+        } catch (err) {
+            console.error("Login failed:", err);
+            setError("Invalid email or password");
+        }
     };
 
     return (
         <div className='p-7 h-screen flex flex-col justify-between'>
             <div>
-                {/* Logo */}
                 <img className='w-15 mb-10' 
-                    src="https://cdn-icons-png.freepik.com/256/5723/5723740.png?ga=GA1.1.1355548291.1741342944&semt=ais_hybrid" 
+                    src="https://cdn-icons-png.freepik.com/256/5723/5723740.png" 
                     alt="Logo" 
                 />
 
-                {/* Login Form */}
                 <form onSubmit={submitHandler}>
                     <h3 className='text-lg font-medium mb-2'>What's your email</h3>
                     <input 
@@ -57,21 +75,23 @@ function UserLogin() {
                         placeholder='password'
                     />
 
-                    {/* This should ideally be a button, not a Link for proper form submission */}
-                    <Link to='/' 
+                    {error && (
+                        <p className="text-red-600 mb-3 text-sm">{error}</p>
+                    )}
+
+                    <button 
+                        type="submit"
                         className='bg-[#111] flex justify-center items-center text-white font-semibold rounded mb-3 px-4 py-2 w-full text-lg'
                     >
                         User Login
-                    </Link>
+                    </button>
 
-                    {/* Redirect to signup */}
                     <p className='text-center'>
                         New Here? <Link to='/user-signup' className='text-blue-600'>Register as a User</Link>
                     </p>
                 </form>
             </div>
 
-            {/* Login as Driver (redirect to driver login) */}
             <div>
                 <Link to='/captain-login'
                     className='bg-[#10b461] flex justify-center items-center text-white font-semibold rounded mb-5 px-4 py-2 w-full text-lg'
@@ -84,21 +104,3 @@ function UserLogin() {
 }
 
 export default UserLogin;
-
-/*
-📝 Backend Interaction Notes:
-
-👉 Data to send to backend (on login):
-- Email (string)
-- Password (string)
-
-👉 Data to receive from backend:
-- Login success/failure status
-- User data (optional, like name or token)
-- JWT token (for authentication, if required)
-- Error message (if credentials are incorrect)
-
-❗Note:
-- Instead of using <Link> for login, use a <button type="submit"> to allow form submission.
-- After successful login, navigate programmatically (e.g., using `useNavigate()`)
-*/

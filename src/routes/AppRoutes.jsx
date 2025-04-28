@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 
 // Public Pages
 import Start from '../pages/public/Start.jsx';
-import HomePage from '../pages/public/HomePage.jsx';
 import About from '../pages/public/About.jsx';
 import Contact from '../pages/public/Contact.jsx';
 
@@ -17,21 +16,27 @@ import UserHome from '../pages/user/UserHome.jsx';
 import CaptainLogin from '../pages/driver/CaptainLogin.jsx';
 import CaptainSignUp from '../pages/driver/CaptainSignUp.jsx';
 
-
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import NotAuthorized from '../pages/public/NotAuthorized.jsx';
+import HomePage from '../pages/public/HomePage.jsx'; // HomePage import yahan rahega
 
 function AppRoutes() {
     return (
         <Routes>
 
-            {/* 👇 Nested route for homepage */}
-            <Route path="/" element={<HomePage />}>
+            {/* 👇 Protected Route for HomePage */}
+            <Route
+                path="/"
+                element={
+                    <ProtectedRoute allowedRoles={['user', 'captain']}>
+                        <HomePage />
+                    </ProtectedRoute>
+                }
+            >
                 <Route index element={<UserHome />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
             </Route>
-
 
             {/* Public Routes */}
             <Route path="/start" element={<Start />} />
@@ -62,18 +67,6 @@ function AppRoutes() {
                     </ProtectedRoute>
                 }
             />
-
-            {/* Protected Routes - Captain (future example) */}
-            {/* 
-        <Route
-            path="/captain/dashboard"
-            element={
-            <ProtectedRoute allowedRoles={['captain']}>
-                <CaptainDashboard />
-            </ProtectedRoute>
-            }
-            /> 
-          */}
         </Routes>
     );
 };

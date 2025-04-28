@@ -1,13 +1,10 @@
 import { myAxios } from "./helper";
 
 
-export const userLogin = async (userData) => {
-    return myAxios.post("/api/auth/login", userData)
+export const driverLogin = async (driverData) => {
+    return myAxios.post("/api/auth/login", driverData)
     .then((response) => {
         console.log(response.data);
         return response.data;
     });
 };
-
-
-

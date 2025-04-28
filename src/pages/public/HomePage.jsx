@@ -1,12 +1,19 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { logout } from '../../auth/authHelper'; // logout import karna padega
 
 function HomePage() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/start');
+    };
+
     return (
         <div className="relative min-h-screen bg-white">
-            
-            {/* 👇 Outlet render karega nested routes jaise Home, About, etc. */}
 
+            {/* 👇 Outlet render karega nested routes jaise Home, About, etc. */}
             <Outlet />
 
             {/* 👇 Bottom Navigation */}
@@ -15,6 +22,7 @@ function HomePage() {
                 <Link to='/about'>About</Link>
                 <Link to='/contact'>Contact</Link>
                 <Link to='/profile'>Profile</Link>
+                <button onClick={handleLogout} className="text-red-400">Logout</button>
             </nav>
 
         </div>

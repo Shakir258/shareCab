@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { driverLogin } from '../../services/driverLogin'; // ✅ Corrected import
 
 function CaptainLogin() {
+    const navigate = useNavigate();
 
-    // State to store driver's login data
     const [driverData, setDriverData] = useState({
         email: "",
         password: ""
     });
 
-    // Handle input changes and update state
+    const [error, setError] = useState("");
+
     const handleChange = (e) => {
         setDriverData({
             ...driverData,
@@ -17,26 +19,38 @@ function CaptainLogin() {
         });
     };
 
-    // Handle form submission: prevent reload, log data, clear inputs
-    const submitHandler = (e) => { 
+    const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(driverData); // In real app, send this data to backend API
-        setDriverData({ email: "", password: "" }); // Reset form
+        setError("");
+
+        try {
+            const loginData = {
+                username: driverData.email, // ✅ email -> username mapping
+                password: driverData.password
+            };
+
+            const response = await driverLogin(loginData); // ✅ Correct function call
+
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("driver", JSON.stringify(response.driver));
+
+            navigate("/"); // ✅ After successful login, redirect to home
+        } catch (err) {
+            console.error("Driver Login failed:", err);
+            setError("Invalid email or password");
+        }
     };
 
     return (
         <div className='p-7 h-screen flex flex-col justify-between'>
             <div>
-                {/* Logo */}
                 <img 
                     className='w-15 mb-10' 
-                    src="https://cdn-icons-png.freepik.com/256/5723/5723740.png?ga=GA1.1.1355548291.1741342944&semt=ais_hybrid" 
+                    src="https://cdn-icons-png.freepik.com/256/5723/5723740.png" 
                     alt="Logo" 
                 />
 
-                {/* Login Form */}
                 <form onSubmit={submitHandler}>
-                    {/* Email Field */}
                     <h3 className='text-lg font-medium mb-2'>What's your email</h3>
                     <input 
                         required 
@@ -48,7 +62,6 @@ function CaptainLogin() {
                         placeholder='email@example.com'
                     />
 
-                    {/* Password Field */}
                     <h3 className='text-lg font-medium mb-2'>Enter password</h3>
                     <input 
                         required 
@@ -60,22 +73,23 @@ function CaptainLogin() {
                         placeholder='password'
                     />
 
-                    {/* This should be a button to submit login */}
-                    <Link 
-                        to='/' 
+                    {error && (
+                        <p className="text-red-600 mb-3 text-sm">{error}</p>
+                    )}
+
+                    <button 
+                        type="submit"
                         className='bg-[#111] flex justify-center items-center text-white font-semibold rounded mb-3 px-4 py-2 w-full text-lg'
                     >
                         Driver Login
-                    </Link>
+                    </button>
 
-                    {/* Link to signup page */}
                     <p className='text-center'>
                         New Here? <Link to='/captain-signup' className='text-blue-600'>Register as a Driver</Link>
                     </p>
                 </form>
             </div>
 
-            {/* Link to user login */}
             <div>
                 <Link 
                     to='/user-login'
@@ -89,21 +103,3 @@ function CaptainLogin() {
 }
 
 export default CaptainLogin;
-
-/*
-📝 Backend Interaction Notes:
-
-👉 Data to send to backend (on login):
-- email (string)
-- password (string)
-
-👉 Data to receive from backend:
-- Login success/failure status
-- Driver ID (optional)
-- JWT token (optional, for authentication)
-- Error message (if invalid credentials or not registered)
-
-❗Note:
-- Use a <button type="submit"> instead of <Link> for actual login request.
-- After successful login, redirect user using `useNavigate()` or some global state like Redux/AuthContext.
-*/

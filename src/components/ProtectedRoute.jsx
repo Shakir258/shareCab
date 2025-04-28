@@ -1,18 +1,16 @@
-// src/components/ProtectedRoute.jsx
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { isLoggedIn } from '../auth/authHelper'; // authHelper file mein isLoggedIn function bana hai
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-    const { user } = useContext(UserContext);
+    // Check localStorage se login status
+    const loggedIn = isLoggedIn();
 
-    if (!user?.isAuthenticated) {
+    if (!loggedIn) {
         return <Navigate to="/start" replace />;
     }
 
-    if (!allowedRoles.includes(user.role)) {
-        return <Navigate to="/not-authorized" replace />;
-    }
-
+    // (Optional) role ke liye extra check laga sakte hain future mein
     return children;
 };
 

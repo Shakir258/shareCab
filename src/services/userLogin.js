@@ -8,6 +8,3 @@ export const userLogin = async (userData) => {
         return response.data;
     });
 };
-
-
-

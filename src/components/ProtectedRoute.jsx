@@ -1,17 +1,30 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { isLoggedIn } from '../auth/authHelper'; // authHelper file mein isLoggedIn function bana hai
+import { jwtDecode } from 'jwt-decode'; // ✅ named import
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-    // Check localStorage se login status
-    const loggedIn = isLoggedIn();
+    const token = localStorage.getItem("token");
 
-    if (!loggedIn) {
+    if (!token) {
         return <Navigate to="/start" replace />;
     }
 
-    // (Optional) role ke liye extra check laga sakte hain future mein
-    return children;
+    try {
+        const decoded = jwtDecode(token); // ✅ no .default
+        console.log("Decoded JWT:", decoded);
+
+        const userRole = decoded.role;
+
+        if (!allowedRoles.includes(userRole)) {
+            return <Navigate to="/not-authorized" replace />;
+        }
+
+        return children;
+
+    } catch (err) {
+        console.error("Token decode failed:", err);
+        return <Navigate to="/start" replace />;
+    }
 };
 
 export default ProtectedRoute;

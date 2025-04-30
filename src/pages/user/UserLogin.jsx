@@ -36,8 +36,9 @@ function UserLogin() {
 
 
             // 👇 Yahi par localStorage mein token aur user store karte hain
-            localStorage.setItem("token", response.token);
-            localStorage.setItem("user", JSON.stringify(response.user));
+            localStorage.setItem("token", response.data.token);
+            // localStorage.setItem("user", JSON.stringify(response.user));
+            console.log(localStorage.getItem("token"));
 
             navigate("/");
 

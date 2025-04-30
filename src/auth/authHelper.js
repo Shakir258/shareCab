@@ -6,6 +6,5 @@ export const isLoggedIn = () => {
 export const logout = () => {
     localStorage.removeItem("token");
     console.log(localStorage.getItem("token"));
-    localStorage.removeItem("driver");
-    console.log(localStorage.getItem("driver"));
+    
 };

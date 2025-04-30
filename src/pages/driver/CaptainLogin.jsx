@@ -31,8 +31,8 @@ function CaptainLogin() {
 
             const response = await driverLogin(loginData); // ✅ Correct function call
 
-            localStorage.setItem("token", response.token);
-            localStorage.setItem("driver", JSON.stringify(response.driver));
+            localStorage.setItem("token", response.data.token);
+            // localStorage.setItem("driver", JSON.stringify(response.driver));
 
             navigate("/"); // ✅ After successful login, redirect to home
         } catch (err) {

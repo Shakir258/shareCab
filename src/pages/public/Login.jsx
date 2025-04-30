@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { userLogin } from '../../services/userLogin'; // adjust path if needed
 
-function UserLogin() {
+function Login() {
     const navigate = useNavigate();
 
     const [userData, setUserData] = useState({
@@ -107,4 +107,4 @@ function UserLogin() {
     );
 }
 
-export default UserLogin;
+export default Login;

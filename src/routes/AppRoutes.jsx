@@ -7,7 +7,6 @@ import About from '../pages/public/About.jsx';
 import Contact from '../pages/public/Contact.jsx';
 
 // User Pages
-import UserLogin from '../pages/user/UserLogin.jsx';
 import UserSignUp from '../pages/user/UserSignUp.jsx';
 import UserProfile from '../pages/user/UserProfile.jsx';
 import UserHome from '../pages/user/UserHome.jsx';
@@ -18,6 +17,7 @@ import CaptainSignUp from '../pages/driver/CaptainSignUp.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import NotAuthorized from '../pages/public/NotAuthorized.jsx';
 import HomePage from '../pages/public/HomePage.jsx'; // HomePage import yahan rahega
+import Login from '../pages/public/Login.jsx';
 
 function AppRoutes() {
     return (
@@ -39,10 +39,11 @@ function AppRoutes() {
 
             {/* Public Routes */}
             <Route path="/start" element={<Start />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/not-authorized" element={<NotAuthorized />} />
 
             {/* User Auth Routes */}
-            <Route path="/user-login" element={<UserLogin />} />
+            
             <Route path="/user-signup" element={<UserSignUp />} />
 
             {/* Captain Auth Routes */}

@@ -129,7 +129,7 @@ function UserSignUp() {
 
                     {/* Redirect to login page */}
                     <p className='text-center'>
-                        Already have an account? <Link to='/user-login' className='text-blue-600'>Login here</Link>
+                        Already have an account? <Link to='/login' className='text-blue-600'>Login here</Link>
                     </p>
                 </form>
             </div>

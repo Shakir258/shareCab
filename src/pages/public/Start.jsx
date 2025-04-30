@@ -8,7 +8,7 @@ function Start() {
                 <img className='w-20 ml-7' src="https://cdn-icons-png.freepik.com/256/5723/5723740.png?ga=GA1.1.1355548291.1741342944&semt=ais_hybrid" alt="" />
                 <div className='bg-white pb-7 py-4 px-4'>
                     <h2 className='text-2xl font-bold'>Get Stated With ShareCab</h2>
-                    <Link to='/user-login' className='flex justify-center items-center w-full bg-black text-white py-3 rounded mt-5'>Continue</Link>
+                    <Link to='/login' className='flex justify-center items-center w-full bg-black text-white py-3 rounded mt-5'>Continue</Link>
                 </div>
             </div>
         </div>

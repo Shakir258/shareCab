@@ -13,7 +13,6 @@ import UserProfile from '../pages/user/UserProfile.jsx';
 import UserHome from '../pages/user/UserHome.jsx';
 
 // Driver Pages
-import CaptainLogin from '../pages/driver/CaptainLogin.jsx';
 import CaptainSignUp from '../pages/driver/CaptainSignUp.jsx';
 
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
@@ -47,7 +46,6 @@ function AppRoutes() {
             <Route path="/user-signup" element={<UserSignUp />} />
 
             {/* Captain Auth Routes */}
-            <Route path="/captain-login" element={<CaptainLogin />} />
             <Route path="/captain-signup" element={<CaptainSignUp />} />
 
             {/* Protected Routes - User */}

@@ -87,7 +87,7 @@ function UserLogin() {
                         type="submit"
                         className='bg-[#111] flex justify-center items-center text-white font-semibold rounded mb-3 px-4 py-2 w-full text-lg'
                     >
-                        User Login
+                        Login
                     </button>
 
                     <p className='text-center'>
@@ -97,10 +97,10 @@ function UserLogin() {
             </div>
 
             <div>
-                <Link to='/captain-login'
+                <Link to='/captain-signup'
                     className='bg-[#10b461] flex justify-center items-center text-white font-semibold rounded mb-5 px-4 py-2 w-full text-lg'
                 >
-                    Sign in as Driver
+                    Sign Up as Driver
                 </Link>
             </div>
         </div>

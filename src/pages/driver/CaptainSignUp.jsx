@@ -121,7 +121,7 @@ function CaptainsignUp() {
 
                     {/* Link to login */}
                     <p className='text-center'>
-                        Already have an account? <Link to='/captain-login' className='text-blue-600'>Login here</Link>
+                        Already have an account? <Link to='/user-login' className='text-blue-600'>Login here</Link>
                     </p>
                 </form>
             </div>

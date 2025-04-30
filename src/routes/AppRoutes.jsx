@@ -16,8 +16,9 @@ import CaptainSignUp from '../pages/driver/CaptainSignUp.jsx';
 
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import NotAuthorized from '../pages/public/NotAuthorized.jsx';
-import HomePage from '../pages/public/HomePage.jsx'; // HomePage import yahan rahega
+import MainContainer from '../pages/public/MainContainer.jsx'; // HomePage import yahan rahega
 import Login from '../pages/public/Login.jsx';
+import DriverHome from '../pages/driver/DriverHome.jsx';
 
 function AppRoutes() {
     return (
@@ -25,17 +26,30 @@ function AppRoutes() {
 
             {/* 👇 Protected Route for HomePage */}
             <Route
-                path="/"
-                element={
+                path="/" element={
                     <ProtectedRoute allowedRoles={['USER', 'DRIVER']}>
-                        <HomePage />
+                        <MainContainer />
                     </ProtectedRoute>
                 }
             >
-                <Route index element={<UserHome />} />
+                <Route path='/user' element={
+                    <ProtectedRoute allowedRoles={['USER']}>
+                        <UserHome />
+                    </ProtectedRoute>
+                } />
+                <Route path='/driver' element={
+                    <ProtectedRoute allowedRoles={['DRIVER']}>
+                        <DriverHome />
+                    </ProtectedRoute>
+                } />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
             </Route>
+
+
+
+
+
 
             {/* Public Routes */}
             <Route path="/start" element={<Start />} />

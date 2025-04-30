@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { userLogin } from '../../services/userLogin'; // adjust path if needed
+import { userLogin } from '../../services/userLogin'; // Adjust path if needed
+import { UserDataContext } from '../../context/UserContextProvider';
+import { jwtDecode } from 'jwt-decode';
 
 function Login() {
     const navigate = useNavigate();
-
-    const [userData, setUserData] = useState({
-        email: "",
-        password: ""
-    });
-
-
+    const { userData, setUserData } = useContext(UserDataContext);
     const [error, setError] = useState("");
 
     const handleChange = (e) => {
@@ -20,27 +16,47 @@ function Login() {
         });
     };
 
-
     const submitHandler = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
             const loginData = {
-                username: userData.email,   // 👈 yahan email se username banake bhej rahe hai
+                username: userData.email,
                 password: userData.password
             };
 
             const response = await userLogin(loginData);
+            const token = response.data.token;
 
+            // Save token to localStorage
+            localStorage.setItem("token", token);
 
+            // Decode token and get role
+            try {
+                const decoded = jwtDecode(token);
+                const role = decoded.role;
 
-            // 👇 Yahi par localStorage mein token aur user store karte hain
-            localStorage.setItem("token", response.data.token);
-            // localStorage.setItem("user", JSON.stringify(response.user));
-            console.log(localStorage.getItem("token"));
+                // Update userData context
+                setUserData({
+                    email: "",
+                    password: "",
+                    role: role
+                });
 
-            navigate("/");
+                // Navigate based on role
+                if (role === "USER") {
+                    navigate("/user");
+                } else if (role === "DRIVER") {
+                    navigate("/driver");
+                } else {
+                    navigate("/not-authorized");
+                }
+
+            } catch (error) {
+                console.error("Invalid token:", error.message);
+                navigate("/start");
+            }
 
         } catch (err) {
             console.error("Login failed:", err);

@@ -6,6 +6,7 @@ export const UserDataContext = createContext();
 function UserContextProvider({ children }) {
     const [userData, setUserData] = useState({
         email: "",
+        password: '',
         firstName: "",
         lastName: "",
         role: "", // 'user' or 'driver'

@@ -19,6 +19,7 @@ import NotAuthorized from '../pages/public/NotAuthorized.jsx';
 import MainContainer from '../pages/public/MainContainer.jsx'; // HomePage import yahan rahega
 import Login from '../pages/public/Login.jsx';
 import DriverHome from '../pages/driver/DriverHome.jsx';
+import Profile from '../pages/public/Profile.jsx';
 
 function AppRoutes() {
     return (
@@ -44,6 +45,7 @@ function AppRoutes() {
                 } />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/profile" element={<Profile />} />
             </Route>
 
 
@@ -54,6 +56,7 @@ function AppRoutes() {
             {/* Public Routes */}
             <Route path="/start" element={<Start />} />
             <Route path="/login" element={<Login />} />
+            
             <Route path="/not-authorized" element={<NotAuthorized />} />
 
             {/* User Auth Routes */}

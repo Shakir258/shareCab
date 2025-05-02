@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { userLogin } from '../../services/userLogin'; // Adjust path if needed
 import { UserDataContext } from '../../context/UserContextProvider';
 import { jwtDecode } from 'jwt-decode';
+import { isLoggedIn } from '../../auth/authHelper';
 
 function Login() {
     const navigate = useNavigate();
@@ -39,9 +40,12 @@ function Login() {
 
                 // Update userData context
                 setUserData({
-                    email: "",
-                    password: "",
-                    role: role
+                    email: decoded.email,
+                    firstName: decoded.firstName,
+                    lastName: decoded.lastName,
+                    role: role,
+                    isLoggedIn: true,
+                    // ...other fields
                 });
 
                 // Navigate based on role

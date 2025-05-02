@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // for navigation after signup
 import { userSignUp } from '../../services/userSignUp';
 
 function UserSignUp() {
-
     const [errors, setErrors] = useState([]);
-
-
-    // State to store user signup information
     const [userData, setUserData] = useState({
         firstName: "",
         lastName: "",
@@ -15,7 +11,9 @@ function UserSignUp() {
         password: ""
     });
 
-    // Handle input changes and update state
+    const navigate = useNavigate(); // navigation hook
+
+    // Handle input changes
     const handleChange = (e) => {
         setUserData({
             ...userData,
@@ -23,40 +21,33 @@ function UserSignUp() {
         });
     };
 
-    // Handle form submission: prevent reload, log data, clear inputs
+    // Handle form submission
     const submitHandler = (e) => {
         e.preventDefault();
         console.log(userData);
 
-        // Client-side validation
+        // ✅ Client-side password validation
         if (userData.password.length < 6 || !/[!@#$%^&*]/.test(userData.password)) {
-            setErrors([{ message: "Password must be stronger use = !@#$%^&*." }]);
+            setErrors([{ message: "Password must be stronger. Use at least one special character (!@#$%^&*)." }]);
             return;
         }
 
-        // Call signup service
-        userSignUp(userData).then((response) => {
-            console.log(response)
-            console.log("sucess");
-        }).catch((error) => {
-            console.log(error);
-            console.log("error log");
-        });
-
+        // ✅ Single API call for signup
         userSignUp(userData)
             .then((response) => {
-                console.log("success", response);
-                setErrors([]); // clear previous errors if any
+                console.log("Signup success:", response);
+                setErrors([]);
+                // ✅ Redirect to login page after successful signup
+                navigate('/login');
             })
             .catch((error) => {
-                console.log("error log", error);
+                console.log("Signup error:", error);
                 if (error.response && error.response.data && error.response.data.data) {
-                    setErrors(error.response.data.data);
+                    setErrors(error.response.data.data); // handle backend validation errors
+                } else {
+                    setErrors([{ message: "Something went wrong. Please try again later." }]);
                 }
             });
-
-        // In real app, send data to backend
-        // setUserData({ firstName: "", lastName: "", email: "", password: "" }); // Reset form
     };
 
     return (
@@ -72,7 +63,7 @@ function UserSignUp() {
                 <form onSubmit={submitHandler}>
                     <h3 className='text-lg font-medium mb-2'>What's your name</h3>
 
-                    {/* Name Inputs */}
+                    {/* First & Last Name */}
                     <div className='flex gap-3 mb-4'>
                         <input
                             required
@@ -119,20 +110,21 @@ function UserSignUp() {
                         placeholder='password'
                     />
 
-                    {/* This should be a button to submit the form */}
+                    {/* Submit Button */}
                     <button
                         type="submit"
                         className='bg-[#111] flex justify-center items-center text-white font-semibold rounded mb-3 px-4 py-2 w-full text-lg'>
                         User SignUp
                     </button>
 
-
-                    {/* Redirect to login page */}
+                    {/* Redirect to login */}
                     <p className='text-center'>
                         Already have an account? <Link to='/login' className='text-blue-600'>Login here</Link>
                     </p>
                 </form>
             </div>
+
+            {/* ✅ Show validation or server errors if any */}
             {errors.length > 0 && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
                     <ul className="list-disc pl-5 text-sm">
@@ -142,7 +134,6 @@ function UserSignUp() {
                     </ul>
                 </div>
             )}
-
 
             {/* Sign up as Driver */}
             <div>
@@ -160,21 +151,15 @@ function UserSignUp() {
 export default UserSignUp;
 
 /*
-📝 Backend Interaction Notes:
+📝 Updates & Notes:
 
-👉 Data to send to backend (on signup):
-- firstName (string)
-- lastName (string)
-- email (string)
-- password (string)
+✅ Removed duplicate `userSignUp()` call.
+✅ Added `useNavigate()` for redirection.
+✅ Added fallback error message if backend doesn't provide `error.response.data`.
+✅ Password validation added before API call.
+✅ Errors are displayed in UI properly.
 
-👉 Data to receive from backend:
-- Signup success/failure status
-- User ID (optional)
-- JWT token (optional, for authentication)
-- Error message (if user already exists or other issues)
+🛠 If needed, you can reset form after successful signup:
+setUserData({ firstName: "", lastName: "", email: "", password: "" });
 
-❗Note:
-- Use a <button type="submit"> instead of <Link> for the actual signup.
-- After successful signup, navigate using `useNavigate()` or redirect user.
 */

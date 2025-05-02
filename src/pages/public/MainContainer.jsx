@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { logout } from '../../auth/authHelper';
 import RoleBasedHomeLink from '../../auth/RoleBasedHomeLink';   
+import { getUserProfile } from '../../services/getUserProfile';
 
 function MainContainer() {
     const navigate = useNavigate();
@@ -19,7 +20,8 @@ function MainContainer() {
                 <RoleBasedHomeLink />
                 <Link to='/about'>About</Link>
                 <Link to='/contact'>Contact</Link>
-                <Link to='/profile'>Profile</Link>
+                {/* <Link to='/profile'>Profile</Link> */}
+                <button to='/profile' onClick={getUserProfile}>Profile</button>
                 <button onClick={handleLogout} className="text-red-400">Logout</button>
             </nav>
         </div>

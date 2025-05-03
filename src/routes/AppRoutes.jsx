@@ -20,6 +20,7 @@ import MainContainer from '../pages/public/MainContainer.jsx'; // HomePage impor
 import Login from '../pages/public/Login.jsx';
 import DriverHome from '../pages/driver/DriverHome.jsx';
 import Profile from '../pages/public/Profile.jsx';
+import EditProfile from '../pages/user/EditProfile.jsx';
 
 function AppRoutes() {
     return (
@@ -46,6 +47,8 @@ function AppRoutes() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/editProfile" element={<EditProfile />} />
+
             </Route>
 
 
@@ -58,6 +61,7 @@ function AppRoutes() {
             <Route path="/login" element={<Login />} />
             
             <Route path="/not-authorized" element={<NotAuthorized />} />
+
 
             {/* User Auth Routes */}
             

@@ -20,8 +20,8 @@ function MainContainer() {
                 <RoleBasedHomeLink />
                 <Link to='/about'>About</Link>
                 <Link to='/contact'>Contact</Link>
-                {/* <Link to='/profile'>Profile</Link> */}
-                <button to='/profile' onClick={getUserProfile}>Profile</button>
+                <Link to='/profile' onClick={getUserProfile}>Profile</Link>
+                
                 <button onClick={handleLogout} className="text-red-400">Logout</button>
             </nav>
         </div>

@@ -36,10 +36,12 @@ function Login() {
             // Decode token and get role
             try {
                 const decoded = jwtDecode(token);
-                const role = decoded.role;
+                const role = decoded.role.toLowerCase();
+                const id = decoded.id;
 
                 // Update userData context
                 setUserData({
+                    id: id,
                     email: decoded.email,
                     firstName: decoded.firstName,
                     lastName: decoded.lastName,
@@ -49,9 +51,9 @@ function Login() {
                 });
 
                 // Navigate based on role
-                if (role === "USER") {
+                if (role === "user") {
                     navigate("/user");
-                } else if (role === "DRIVER") {
+                } else if (role === "driver") {
                     navigate("/driver");
                 } else {
                     navigate("/not-authorized");

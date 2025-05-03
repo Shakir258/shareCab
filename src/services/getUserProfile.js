@@ -1,19 +1,25 @@
-// services/getUserProfile.js
-import { myAxios } from './helper';
+import { myAxios } from "./helper";
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (userId, role) => {
   const token = localStorage.getItem('token');
-  console.log("getUserProfile: " + token)
+  console.log("getUserProfile: " + token);
+  console.log("getUserProfile userId:", userId, "role:", role);
+
+  
 
   try {
-    const response = await myAxios.get('/api/users/2', {
+    if (!userId || !role) throw new Error("Missing userId or role");
+
+    let url = `/api/${role.toLowerCase()}s/${userId}`;
+    const response = await myAxios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
     console.log("Fetched user profile:", response.data);
-    return response.data; // direct DTO from backend, no .data.data
+    response.data.password = 'xxxxxxxx';
+    return response.data;
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
     throw error;

@@ -1,22 +1,24 @@
 import React, { useEffect, useContext } from 'react';
 import { getUserProfile } from '../services/getUserProfile';
-import { UserContextProvider } from '../context/UserContextProvider';
+import { UserDataContext } from '../context/UserContextProvider';
 
 function ProfileProvider({ children }) {
-    const { setUserData } = useContext(UserContextProvider);
+    const { userData, setUserData } = useContext(UserDataContext);
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const profileData = await getUserProfile;
+                const profileData = await getUserProfile(userData.id, userData.role);
                 setUserData(prev => ({ ...prev, ...profileData }));
             } catch (err) {
                 console.error('Error fetching profile:', err);
             }
         };
 
-        fetchProfile();
-    }, []);
+        if (userData?.id && userData?.role) {
+            fetchProfile();
+        }
+    }, [userData?.id, userData?.role]);
 
     return <>{children}</>;
 }

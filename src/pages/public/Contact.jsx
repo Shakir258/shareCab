@@ -33,23 +33,17 @@ const Contact = () => {
         setError(null);
         setSuccess(false);
 
-        // Basic validation
         if (!formData.name || !formData.email || !formData.message) {
             setError('Please fill in all required fields.');
             setLoading(false);
             return;
         }
 
-        // Simulate an API call (replace with your actual API endpoint)
         try {
-            // Replace this with your actual fetch or axios call
-            await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate 2s delay
-
-            // In a real app, you'd send data to your backend here
+            await new Promise((resolve) => setTimeout(resolve, 2000));
             console.log('Form Data:', formData);
-
             setSuccess(true);
-            setFormData({ name: '', email: '', subject: '', message: '' }); // Clear form
+            setFormData({ name: '', email: '', subject: '', message: '' });
         } catch (err) {
             setError('Failed to send message. Please try again.');
             console.error('Error sending message:', err);
@@ -59,107 +53,111 @@ const Contact = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-8 bg-gray-100 rounded-xl shadow-lg ">
-            <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">Contact Us</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Contact Information */}
-                <div>
-                    <h3 className="text-xl font-semibold mb-4 text-gray-700">Contact Information</h3>
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-3">
-                            <MapPin className="w-6 h-6 text-red-500" />
-                            <span className="text-gray-600">Address: Dewan VS Institude Of Engginering And Technology</span>
+        <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center p-4">
+            <div className="max-w-5xl w-full bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-10">
+                <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Contact Us</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    {/* Contact Info */}
+                    <div className="bg-white rounded-2xl shadow-lg p-6 space-y-5">
+                        <h3 className="text-xl font-semibold text-gray-700">Contact Information</h3>
+                        <div className="flex items-start gap-3">
+                            <MapPin className="text-red-500 w-6 h-6 mt-1" />
+                            <span className="text-gray-600">Dewan VS Institute Of Engineering And Technology</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <Phone className="w-6 h-6 text-sky-500" />
-                            <span className="text-gray-600">Phone: +91 8445945749</span>
+                        <div className="flex items-start gap-3">
+                            <Phone className="text-sky-500 w-6 h-6 mt-1" />
+                            <span className="text-gray-600">+91 8445945749</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <Mail className="w-6 h-6 text-emerald-500" />
-                            <span className="text-gray-600">Email: Shakirofficial258@gmail.com</span>
+                        <div className="flex items-start gap-3">
+                            <Mail className="text-emerald-500 w-6 h-6 mt-1" />
+                            <span className="text-gray-600">Shakirofficial258@gmail.com</span>
                         </div>
                     </div>
-                </div>
 
-                {/* Contact Form */}
-                <div>
-                    <h3 className="text-xl font-semibold mb-4 text-gray-700">Send us a Message</h3>
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Form */}
+                    <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-6 space-y-6">
+                        <h3 className="text-xl font-semibold text-gray-700 mb-2">Send a Message</h3>
                         {error && <p className="text-red-500">{error}</p>}
-                        {success && <p className="text-green-600">Message sent successfully! We'll get back to you soon.</p>}
+                        {success && (
+                            <p className="text-green-600">Message sent successfully! We'll get back to you soon.</p>
+                        )}
+
+                        {/* Name */}
                         <div>
-                            <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
-                                <User className="inline-block w-4 h-4 mr-1" />
-                                Name
-                                <span className="text-red-500">*</span>
+                            <label htmlFor="name" className="text-gray-700 font-medium text-sm flex items-center gap-1">
+                                <User className="w-4 h-4" />
+                                Name <span className="text-red-500">*</span>
                             </label>
                             <input
-                                type="text"
                                 id="name"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
                                 placeholder="Your Name"
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="w-full mt-1 rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             />
                         </div>
+
+                        {/* Email */}
                         <div>
-                            <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
-                                <Mail className="inline-block w-4 h-4 mr-1" />
-                                Email
-                                <span className="text-red-500">*</span>
+                            <label htmlFor="email" className="text-gray-700 font-medium text-sm flex items-center gap-1">
+                                <Mail className="w-4 h-4" />
+                                Email <span className="text-red-500">*</span>
                             </label>
                             <input
-                                type="email"
                                 id="email"
                                 name="email"
+                                type="email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="you@example.com"
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="w-full mt-1 rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             />
                         </div>
+
+                        {/* Subject */}
                         <div>
-                            <label htmlFor="subject" className="block text-gray-700 text-sm font-bold mb-2">
-                                <MessageCircle className="inline-block w-4 h-4 mr-1" />
+                            <label htmlFor="subject" className="text-gray-700 font-medium text-sm flex items-center gap-1">
+                                <MessageCircle className="w-4 h-4" />
                                 Subject
                             </label>
                             <input
-                                type="text"
                                 id="subject"
                                 name="subject"
                                 value={formData.subject}
                                 onChange={handleChange}
-                                placeholder="Subject of your message"
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                placeholder="What's the topic?"
+                                className="w-full mt-1 rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             />
                         </div>
+
+                        {/* Message */}
                         <div>
-                            <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2">
-                                <MessageCircle className="inline-block w-4 h-4 mr-1" />
-                                Message
-                                <span className="text-red-500">*</span>
+                            <label htmlFor="message" className="text-gray-700 font-medium text-sm flex items-center gap-1">
+                                <MessageCircle className="w-4 h-4" />
+                                Message <span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 id="message"
                                 name="message"
+                                rows={4}
                                 value={formData.message}
                                 onChange={handleChange}
-                                placeholder="Your message..."
-                                rows={4}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none"
+                                placeholder="Write your message..."
+                                className="w-full mt-1 rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
                             />
                         </div>
+
+                        {/* Button */}
                         <button
                             type="submit"
-                            className="bg-indigo-500 hover:bg-indigo-600 text-white mb-10 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             disabled={loading}
+                            className="w-full flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-xl transition duration-300"
                         >
                             {loading ? (
                                 <>
                                     <svg
-                                        className="animate-spin h-5 w-5 mr-3"
+                                        className="animate-spin h-5 w-5 mr-2"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"

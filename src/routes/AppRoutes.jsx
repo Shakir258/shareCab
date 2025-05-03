@@ -8,7 +8,6 @@ import Contact from '../pages/public/Contact.jsx';
 
 // User Pages
 import UserSignUp from '../pages/user/UserSignUp.jsx';
-import UserProfile from '../pages/user/UserProfile.jsx';
 import UserHome from '../pages/user/UserHome.jsx';
 
 // Driver Pages
@@ -19,8 +18,7 @@ import NotAuthorized from '../pages/public/NotAuthorized.jsx';
 import MainContainer from '../pages/public/MainContainer.jsx'; // HomePage import yahan rahega
 import Login from '../pages/public/Login.jsx';
 import DriverHome from '../pages/driver/DriverHome.jsx';
-import Profile from '../pages/public/Profile.jsx';
-import EditProfile from '../pages/user/EditProfile.jsx';
+import UserProfile from '../pages/user/UserProfile.jsx';
 
 function AppRoutes() {
     return (
@@ -46,8 +44,8 @@ function AppRoutes() {
                 } />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/editProfile" element={<EditProfile />} />
+                <Route path="/profile" element={<UserProfile />} />
+
 
             </Route>
 
@@ -59,12 +57,12 @@ function AppRoutes() {
             {/* Public Routes */}
             <Route path="/start" element={<Start />} />
             <Route path="/login" element={<Login />} />
-            
+
             <Route path="/not-authorized" element={<NotAuthorized />} />
 
 
             {/* User Auth Routes */}
-            
+
             <Route path="/user-signup" element={<UserSignUp />} />
 
             {/* Captain Auth Routes */}
@@ -79,14 +77,7 @@ function AppRoutes() {
                     </ProtectedRoute>
                 }
             />
-            <Route
-                path="/user/profile"
-                element={
-                    <ProtectedRoute allowedRoles={['USER']}>
-                        <UserProfile />
-                    </ProtectedRoute>
-                }
-            />
+
         </Routes>
     );
 };

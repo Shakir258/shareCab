@@ -7,10 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 function MainContainer() {
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout();
-        navigate('/start');
-    };
+    
 
     const token = localStorage.getItem('token');
     let role = null;
@@ -33,9 +30,6 @@ function MainContainer() {
                 <Link to='/contact'>Contact</Link>
                 {/* <Link to='/profile' >Profile</Link> */}
                 <Link to={role === 'DRIVER' ? '/driver-profile' : '/profile'}>Profile</Link>
-                
-                
-                <button onClick={handleLogout} className="text-red-400">Logout</button>
             </nav>
         </div>
     );

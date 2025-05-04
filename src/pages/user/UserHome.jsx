@@ -1,110 +1,118 @@
 import React, { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import 'remixicon/fonts/remixicon.css'
+import 'remixicon/fonts/remixicon.css';
 
 function UserHome() {
-    // State variables for pickup and destination input fields
     const [pickup, setPickup] = useState('');
     const [destination, setDestination] = useState('');
-    const [panleOpen, setPanleOpen] = useState(false); // Controls panel visibility
+    const [panelOpen, setPanelOpen] = useState(false);
+    const panelRef = useRef(null);
+    const panelCloseRef = useRef(null);
 
-    // Refs for animation elements
-    const panleRef = useRef(null);
-    const panleCloseRef = useRef(null);
+    const rideResults = [
+        { driver: "Ravi", car: "Swift", price: "₹250", time: "4:30 PM", seats: 3 },
+        { driver: "Anjali", car: "Innova", price: "₹400", time: "5:15 PM", seats: 2 },
+        { driver: "Karan", car: "Alto", price: "₹180", time: "6:00 PM", seats: 1 },
+        { driver: "Ravi", car: "Swift", price: "₹250", time: "4:30 PM", seats: 3 },
+        { driver: "Anjali", car: "Innova", price: "₹400", time: "5:15 PM", seats: 2 },
+        { driver: "Karan", car: "Alto", price: "₹180", time: "6:00 PM", seats: 1 },
+    ];
 
-    // Form submission handler (currently prevents default action)
     const submitHandler = (e) => {
         e.preventDefault();
-    }
+        // Panel will only open on input click, not here
+    };
 
-    // GSAP animation trigger based on `panleOpen` state
-    useGSAP(function () {
-        if (panleOpen) {
-            // Open the panel with animation
-            gsap.to(panleRef.current, {
-                height: '80%',
-                opacity: 1
-            });
-            gsap.to(panleCloseRef.current, {
-                opacity: 1
-            });
+    useGSAP(() => {
+        if (panelOpen) {
+            gsap.to(panelRef.current, { height: '70%', opacity: 1 });
+            gsap.to(panelCloseRef.current, { opacity: 1 });
         } else {
-            // Close the panel with animation
-            gsap.to(panleRef.current, {
-                height: '0%',
-                opacity: 0
-            });
-            gsap.to(panleCloseRef.current, {
-                opacity: 0
-            });
+            gsap.to(panelRef.current, { height: '0%', opacity: 0 });
+            gsap.to(panelCloseRef.current, { opacity: 0 });
         }
-    }, [panleOpen]);
+    }, [panelOpen]);
 
     return (
         <div className='h-screen relative'>
-            {/* Logo Image */}
-            <img className='w-15 absolute left-5 top-5' 
-                src="https://cdn-icons-png.freepik.com/256/5723/5723740.png?ga=GA1.1.1355548291.1741342944&semt=ais_hybrid" 
-                alt="Logo" 
+            <img className='w-15 absolute left-5 top-5'
+                src="https://cdn-icons-png.freepik.com/256/5723/5723740.png"
+                alt="Logo"
             />
 
-            {/* Background Map Image */}
             <div className='h-screen w-screen'>
-                <img className='h-full w-full object-cover' 
-                    src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" 
-                    alt="map" 
+                <img className='h-full w-full object-cover'
+                    src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
+                    alt="map"
                 />
             </div>
 
-            {/* Input Panel */}
             <div className='flex flex-col justify-end h-screen absolute top-0 w-full'>
-                <div className='bg-white h-[40%] p-5 relative'>
+                <div className={`bg-white ${panelOpen ? 'h-[30%]' : 'h-[40%]'} p-5 relative transition-all duration-200`}>
                     <h4 className='text-2xl font-semibold'>Find Your Ride</h4>
 
-                    {/* Close Panel Icon */}
-                    <h2 
-                        ref={panleCloseRef}
+
+                    
+                    <button
+                            type='submit'
+                            className={`bg-black ${panelOpen ? 'block' : 'hidden'}  text-white px-4 py-1 rounded-lg mt-4 float-right absolute top-1 right-20 cursor-pointer`}
+                        >
+                            Search
+                        </button>
+                    <h2
+                        ref={panelCloseRef}
                         onClick={() => {
-                            setPanleOpen(false);
-                            console.log(pickup);
-                            console.log(destination);
+                            setPanelOpen(false);
+                            console.log(pickup, destination);
                         }}
-                        className='text-2xl absolute top-5 right-5'
+                        className='text-2xl absolute top-5 right-5 cursor-pointer'
                     >
                         <i className="ri-arrow-down-wide-line"></i>
                     </h2>
+                    
 
-                    {/* Pickup and Destination Inputs */}
                     <form className='relative' onSubmit={submitHandler}>
-                        {/* Vertical line design */}
                         <div className='line absolute h-15 w-1 bg-gray-800 rounded-full top-10 left-5'></div>
 
-                        {/* Pickup Input */}
-                        <input 
-                            className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-5' 
-                            type="text" 
-                            placeholder='Add a pick-up location' 
-                            onClick={() => setPanleOpen(true)}
+                        <input
+                            className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-5'
+                            type="text"
+                            placeholder='Add a pick-up location'
                             value={pickup}
+                            onClick={() => setPanelOpen(true)}
                             onChange={(e) => setPickup(e.target.value)}
+
                         />
 
-                        {/* Destination Input */}
-                        <input 
-                            className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3' 
-                            type="text" 
-                            placeholder='Enter your destination' 
-                            onClick={() => setPanleOpen(true)}
+
+
+                        <input
+                            className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3'
+                            type="text"
+                            placeholder='Enter your destination'
                             value={destination}
+                            onClick={() => setPanelOpen(true)}
                             onChange={(e) => setDestination(e.target.value)}
                         />
+
+                        
                     </form>
                 </div>
 
-                {/* Panel that opens/closes with GSAP animation */}
-                <div ref={panleRef} className='opacity-0 bg-red-500 h-[0%]'>
-                    {/* Add dynamic search results or suggestions here in future */}
+                <div
+                    ref={panelRef}
+                    className='opacity-0 bg-[#d1e2df] h-[0%] overflow-y-auto px-4 py-3 text-white transition-all duration-500'
+                >
+                    <h2 className='text-xl font-bold mb-3 text-[#682732]'>Available Rides</h2>
+                    {rideResults.map((ride, index) => (
+                        <div key={index} className='bg-white text-black rounded-lg p-4 mb-3 shadow'>
+                            <h3 className='text-lg font-semibold'>{ride.driver} ({ride.car})</h3>
+                            <p>Time: {ride.time}</p>
+                            <p>Seats: {ride.seats}</p>
+                            <p className='font-bold'>Fare: {ride.price}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
@@ -112,17 +120,3 @@ function UserHome() {
 }
 
 export default UserHome;
-
-/*
-📝 Backend Interaction Notes:
-
-👉 From frontend to backend (data to send):
-- Pickup location (string)
-- Destination location (string)
-These values should be sent on form submission to the backend to fetch available rides.
-
-👉 From backend to frontend (data to receive):
-- List of available rides between pickup and destination
-    (including driver name, car info, price, time, seats, etc.)
-- Suggestions/autocomplete results for pickup/destination fields (optional feature)
-*/

@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { getDriverProfile } from '../../services/getDriverProfile'; // service ko alag se banana padega
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../auth/authHelper';
 
 function DriverProfile() {
     const [driverProfileData, setDriverProfileData] = useState();
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/start');
+    };
 
     useEffect(() => {
         getDriverProfile()
@@ -42,6 +51,8 @@ function DriverProfile() {
                 <FieldBox label="Rating" value={`${driverProfileData.rating} ⭐`} />
                 <FieldBox label="Total Rides Given" value={driverProfileData.totalRides} />
                 <FieldBox label="Last Ride" value={driverProfileData.lastRideDate || "N/A"} />
+                <button onClick={handleLogout} className="text-white font-semibold hover:bg-red-800 bg-red-600 px-3 py-2 rounded-lg w-25">Logout</button>
+
             </div>
         </div>
     );

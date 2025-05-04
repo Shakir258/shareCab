@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { getUserProfile } from '../../services/getUserProfile';
+import { logout } from '../../auth/authHelper';
+import { useNavigate } from 'react-router-dom';
 
 function UserProfile() {
     const [userProfileData, setUserProfileData] = useState();
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/start');
+    };
 
     useEffect(() => {
         getUserProfile()
@@ -41,6 +50,7 @@ function UserProfile() {
                 <FieldBox label="Rating" value={`${userProfileData.rating} ⭐`} />
                 <FieldBox label="Total Rides" value={userProfileData.totalRides} />
                 <FieldBox label="Last Ride" value={userProfileData.lastRideDate || "N/A"} />
+                <button onClick={handleLogout} className="text-white font-semibold hover:bg-red-800 bg-red-600 px-3 py-2 rounded-lg w-25">Logout</button>
             </div>
         </div>
     );

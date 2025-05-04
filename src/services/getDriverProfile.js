@@ -2,8 +2,9 @@ import { myAxios } from "./helper";
 
 export const getDriverProfile = () => {
     const token = localStorage.getItem("token");
+    const id = localStorage.getItem("currentId");
 
-    return myAxios.get(`/api/drivers/1`,{
+    return myAxios.get(`/api/drivers/${id}`,{
         headers: {
             Authorization: `Bearer ${token}`,
         },

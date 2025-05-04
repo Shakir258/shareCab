@@ -2,8 +2,10 @@ import { myAxios } from "./helper";
 
 export const getUserProfile = () => {
     const token = localStorage.getItem("token");
+    const id = localStorage.getItem("currentId");
 
-    return myAxios.get(`/api/users/2`,{
+
+    return myAxios.get(`/api/users/${id}`,{
         headers: {
             Authorization: `Bearer ${token}`,
         },

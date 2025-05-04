@@ -66,109 +66,71 @@ function DriverHome() {
         }
     }, [panelOpen]);
 
-    useGSAP(() => {
-        gsap.to(panelCloseRef.current, { opacity: panelOpen ? 1 : 0 });
-        gsap.to(panelRef.current, {
-            height: panelOpen ? '80%' : '0%',
-            opacity: panelOpen ? 1 : 0,
-            duration: 0.3,
-            ease: 'power2.out',
-        });
-    }, [panelOpen]);
-
-    useGSAP(() => {
-        gsap.from(".glass", {
-            y: 200,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power3.out"
-        });
-
-        gsap.from(".glass input, .glass button", {
-            y: 20,
-            opacity: 0,
-            stagger: 0.1,
-            delay: 0.3,
-            duration: 0.5,
-            ease: "power2.out"
-        });
-
-        const floatAnim = (target, x, y) => {
-            gsap.to(target, {
-                x,
-                y,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                duration: 4 + Math.random()
-            });
-        };
-
-        floatAnim(topLeftBall.current, 10, 15);
-        floatAnim(topRightBall.current, -15, 10);
-        floatAnim(bottomLeftBall.current, 12, -10);
-        floatAnim(bottomRightBall.current, -10, -15);
-    }, []);
-
     return (
-        <div className='h-screen relative bg-gradient-to-br from-green-100 via-white to-blue-200 overflow-hidden'>
-
-            {/* Floating Glass Balls */}
-            <div ref={topLeftBall} className="absolute w-28 h-28 rounded-full backdrop-blur-lg bg-green-200 shadow-2xl top-[-40px] left-[-40px]"></div>
-            <div ref={topRightBall} className="absolute w-28 h-28 rounded-full backdrop-blur-lg bg-pink-200 shadow-2xl top-[-40px] right-[-40px]"></div>
-            <div ref={bottomLeftBall} className="absolute w-28 h-28 rounded-full backdrop-blur-lg bg-blue-200 shadow-2xl bottom-[-40px] left-[-40px]"></div>
-            <div ref={bottomRightBall} className="absolute w-28 h-28 rounded-full backdrop-blur-lg bg-yellow-200 shadow-2xl bottom-[-40px] right-[-40px]"></div>
-
-            {/* Logo */}
-            {/* <img
-                className='w-12 absolute left-6 top-6 rounded-md shadow'
-                src="https://cdn-icons-png.freepik.com/256/5723/5723740.png"
-                alt="Logo"
-            /> */}
-
-
-            {/* Glass Form Panel */}
-            <div className='flex flex-col justify-start h-screen absolute top-0 w-full '>
-            <h4 className='text-2xl font-semibold text-black-800 mb-2 mt-5 ml-5'>Offer a Ride</h4>
-                <div className='glass overflow-y-scroll rounded-t-3xl shadow-xl  p-2 backdrop-blur-md border border-white border-opacity-20 mx-3 pb-10'>
+        <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+            <div className="w-full max-w-md bg-white shadow-2xl rounded-3xl p-6 mb-8">
+                <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">OFFER RIDE</h2>
+                <form onSubmit={submitHandler} className="space-y-4">
+                    <input type="text" placeholder="Departure" value={departure}
+                        onChange={(e) => setDeparture(e.target.value)} required
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
+                    />
                     
-                    <h2
-                        ref={panelCloseRef}
-                        onClick={() => setPanelOpen(false)}
-                        className='text-2xl absolute top-4 right-6 cursor-pointer text-gray-600'
-                    >
-                        <i className="ri-arrow-down-s-line"></i>
-                    </h2>
+                    {stops.map((stop, index) => (
+                        <div key={index} className="relative">
+                            <input type="text" placeholder={`Stop ${index + 1}`} value={stop}
+                                onChange={(e) => updateStop(index, e.target.value)}
+                                className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
+                            />
+                            {stops.length > 1 && (
+                                <button type="button" onClick={() => removeStop(index)}
+                                    className="absolute top-2 right-3 text-red-500 text-xl">
+                                    <i className="ri-close-line"></i>
+                                </button>
+                            )}
+                        </div>
+                    ))}
+                    <button type="button" onClick={addStop}
+                        className="w-full py-2 bg-blue-50 text-blue-700 rounded-xl shadow hover:bg-blue-100">
+                        + Add Stop
+                    </button>
 
-                    <form className='relative mt-3 ' onSubmit={submitHandler}>
-                        <input className='bg-gray-200 px-3 py-2 rounded w-full mt-2' type="text" placeholder="Departure" value={departure} onChange={(e) => setDeparture(e.target.value)} required />
-                        {stops.map((stop, index) => (
-                            <div key={index} className="mt-2 relative">
-                                <input className='bg-gray-200 px-4 py-3 rounded w-full' type="text" placeholder={`Stop ${index + 1}`} value={stop} onChange={(e) => updateStop(index, e.target.value)} />
-                                {stops.length > 1 && (
-                                    <button type="button" onClick={() => removeStop(index)} className='absolute top-2 right-2 text-red-500'>
-                                        <i className="ri-close-line"></i>
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                        <button type="button" onClick={addStop} className='bg-blue-100 text-blue-800 mt-3 py-2 px-4 rounded w-full'>+ Add Stop</button>
-                        <input className='bg-gray-200 px-4 py-3 rounded w-full mt-3' type="text" placeholder="Destination" value={finalDestination} onChange={(e) => setFinalDestination(e.target.value)} required />
-                        <input className='bg-gray-200 px-4 py-3 rounded w-full mt-3' type="date" value={date} onChange={(e) => setDate(e.target.value)} min={new Date().toISOString().split("T")[0]} required />
-                        <input className='bg-gray-200 px-4 py-3 rounded w-full mt-3' type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
-                        <input className='bg-gray-200 px-4 py-3 rounded w-full mt-3' type="number" placeholder="Seats" value={seats} onChange={(e) => setSeats(e.target.value)} required />
-                        <input className='bg-gray-200 px-4 py-3 rounded w-full mt-3' type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required />
-                        <button type="submit" disabled={loading} className='bg-green-500 text-white py-3 rounded-xl w-full mt-5'>
-                            {loading ? "Submitting..." : "Offer Ride"}
-                        </button>
-                    </form>
-                </div>
+                    <input type="text" placeholder="Destination" value={finalDestination}
+                        onChange={(e) => setFinalDestination(e.target.value)} required
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
+                    />
 
-                {/* Confirmation Panel */}
-                <div ref={panelRef} className='opacity-0 bg-green-100 h-[0%] rounded-t-3xl shadow-lg p-6'>
-                    <h5 className='text-lg font-semibold text-green-700 mb-2'>Ride Offered!</h5>
-                    <p className='text-gray-600'>Your ride details have been submitted successfully.</p>
-                </div>
+                    <input type="date" value={date}
+                        onChange={(e) => setDate(e.target.value)} min={new Date().toISOString().split("T")[0]} required
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
+                    />
+
+                    <input type="time" value={time}
+                        onChange={(e) => setTime(e.target.value)} required
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
+                    />
+
+                    <input type="number" placeholder="Seats" value={seats}
+                        onChange={(e) => setSeats(e.target.value)} required
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
+                    />
+
+                    <input type="number" placeholder="Price" value={price}
+                        onChange={(e) => setPrice(e.target.value)} required
+                        className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
+                    />
+
+                    <button type="submit" disabled={loading}
+                        className="w-full py-3 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-600 transition">
+                        {loading ? "Submitting..." : "Offer Ride"}
+                    </button>
+                </form>
+            </div>
+
+            {/* Confirmation Panel */}
+            <div ref={panelRef} className='opacity-0 bg-green-100 w-full max-w-md rounded-3xl shadow-md p-6 transition-all duration-300'>
+                <h5 className='text-lg font-semibold text-green-700 mb-2'>Ride Offered!</h5>
+                <p className='text-gray-600'>Your ride details have been submitted successfully.</p>
             </div>
         </div>
     );

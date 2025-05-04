@@ -50,7 +50,13 @@ function UserProfile() {
                 <FieldBox label="Rating" value={`${userProfileData.rating} ⭐`} />
                 <FieldBox label="Total Rides" value={userProfileData.totalRides} />
                 <FieldBox label="Last Ride" value={userProfileData.lastRideDate || "N/A"} />
-                <button onClick={handleLogout} className="text-white font-semibold hover:bg-red-800 bg-red-600 px-3 py-2 rounded-lg w-25">Logout</button>
+                
+                <button
+                    onClick={handleLogout}
+                    className="bg-white/40 backdrop-blur-md shadow-lg rounded-xl p-3 border border-white/30 text-red-800 font-semibold hover:bg-red-100 transition"
+                >
+                    Logout
+                </button>
             </div>
         </div>
     );

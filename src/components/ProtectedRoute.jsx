@@ -12,6 +12,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     try {
         const decoded = jwtDecode(token); // ✅ no .default
         console.log("Decoded JWT:", decoded);
+        localStorage.setItem("currentId", decoded.id);
 
         const userRole = decoded.role;
 

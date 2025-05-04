@@ -53,8 +53,8 @@ const Contact = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center p-4">
-            <div className="max-w-5xl w-full bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-10">
+        <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center ">
+            <div className="max-w-5xl w-full bg-white/80 backdrop-blur-md  shadow-2xl p-10">
                 <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Contact Us</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     {/* Contact Info */}

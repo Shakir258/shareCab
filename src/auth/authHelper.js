@@ -6,4 +6,5 @@ export const isLoggedIn = () => {
 export const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userProfileData");
+    localStorage.removeItem("driverProfileData");
 };

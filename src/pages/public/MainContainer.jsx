@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { logout } from '../../auth/authHelper';
 import RoleBasedHomeLink from '../../auth/RoleBasedHomeLink';   
+import { jwtDecode } from 'jwt-decode';
 
 function MainContainer() {
     const navigate = useNavigate();
@@ -11,6 +12,17 @@ function MainContainer() {
         navigate('/start');
     };
 
+    const token = localStorage.getItem('token');
+    let role = null;
+    if (token) {
+        try {
+            const decoded = jwtDecode(token);
+            role = decoded.role;
+        } catch (err) {
+            console.error("Invalid token");
+        }
+    }
+
     return (
         <div className="relative min-h-screen bg-white">
             <Outlet />
@@ -19,7 +31,8 @@ function MainContainer() {
                 <RoleBasedHomeLink />
                 <Link to='/about'>About</Link>
                 <Link to='/contact'>Contact</Link>
-                <Link to='/profile' >Profile</Link>
+                {/* <Link to='/profile' >Profile</Link> */}
+                <Link to={role === 'DRIVER' ? '/driver-profile' : '/profile'}>Profile</Link>
                 
                 
                 <button onClick={handleLogout} className="text-red-400">Logout</button>

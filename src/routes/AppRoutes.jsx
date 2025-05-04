@@ -19,6 +19,7 @@ import MainContainer from '../pages/public/MainContainer.jsx'; // HomePage impor
 import Login from '../pages/public/Login.jsx';
 import DriverHome from '../pages/driver/DriverHome.jsx';
 import UserProfile from '../pages/user/UserProfile.jsx';
+import DriverProfile from '../pages/driver/DriverProfile.jsx';
 
 function AppRoutes() {
     return (
@@ -44,7 +45,19 @@ function AppRoutes() {
                 } />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/profile" element={<UserProfile />} />
+                <Route path="/profile" element={
+                    <ProtectedRoute allowedRoles={['USER']}>
+                        <UserProfile />
+                    </ProtectedRoute>
+                } />
+
+                <Route path="/driver-profile" element={
+                    <ProtectedRoute allowedRoles={['DRIVER']}>
+                        <DriverProfile />
+                    </ProtectedRoute>
+                } />
+
+
 
 
             </Route>
